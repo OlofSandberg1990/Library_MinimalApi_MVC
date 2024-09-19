@@ -1,0 +1,42 @@
+﻿@model BookDTO
+
+<div class="form-background">
+    <h1>Edit Book</h1>
+    <form asp-action="UpdateBook">
+    <input asp-for="BookId" hidden />
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Author" class="control-label"></label>
+            <input asp-for="Author" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Genre" class="control-label"></label>
+            <input asp-for="Genre" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Published" class="control-label"></label>
+            <input asp-for="Published" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AvaliableForLoan" class="control-label"></label>
+            <input asp-for="AvaliableForLoan" class="form-check-input" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">            
+            <input type="submit" value="Save" class="btn btn-dark d-inline" />
+            <a asp-action="BookIndex" class="btn btn-secondary d-inline">Back to Library List</a>
+        </div>
+    </form>
+</div>

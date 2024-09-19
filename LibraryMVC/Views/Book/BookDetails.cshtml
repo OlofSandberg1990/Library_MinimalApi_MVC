@@ -1,0 +1,41 @@
+﻿@model BookDTO
+
+<div class="details-background">
+    <h1>Book Details</h1>
+    <h2>@Model.Title</h2>
+    <table class="table details-table">
+        <tr>
+            <th>Title</th>
+            <td>@Model.Title</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>@Model.Author</td>
+        </tr>
+        <tr>
+            <th>Genre</th>
+            <td>@Model.Genre</td>
+        </tr>
+        <tr>
+            <th>Published Year</th>
+            <td>@Model.Published</td>
+        </tr>
+        <tr>
+            <th>Available for Loan</th>
+            <td>
+                @if (Model.AvaliableForLoan)
+                {
+                    <span class="badge bg-success">Yes</span>
+                } else
+                {
+                    <span class="badge bg-danger">No</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>@Model.Description</td>
+        </tr>
+    </table>
+    <a asp-action="BookIndex" class="btn btn-primary">Back to Library List</a>
+</div>
