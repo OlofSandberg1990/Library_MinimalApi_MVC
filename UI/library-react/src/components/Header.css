@@ -1,0 +1,25 @@
+/* Stil för headern */
+.app-header {
+    background-color: rgba(90, 61, 49, 0.85); /* Transparent brun bakgrund */
+    padding: 30px;
+    text-align: center;
+    color: #F4EDE4;
+    border-radius: 70%; /* Oval form */
+    width: 40%; /* Gör den mindre för att skapa oval form */
+    margin: 20px auto; /* Centrera den på sidan */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Skuggning för mjukare effekt */
+  }
+  
+  .app-header h1 {
+    font-size: 3em;
+    margin: 0;
+    color: #F4EDE4;
+    font-family: 'Permanent Marker', cursive;
+  }
+  
+  .app-header p {
+    font-size: 1.2em;
+    margin-top: 10px;
+    color: #E0B089;
+  }
+  

@@ -1,0 +1,35 @@
+/* Stil för navbaren */
+.navbar {
+    padding: 0;
+    text-align: center;
+    margin-bottom: 20px; /* Skapar lite avstånd från headern */
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .navbar ul li {
+    margin: 0 20px;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    font-size: 1.4em;
+    color: #F7F7E8;
+    padding: 12px 25px;
+    border-radius: 8px;
+    background-color: #b35a00; /* Mörkorange bakgrund */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    background-color: #cc7000; /* Ljusare orange vid hover */
+    transform: scale(1.05);
+    color: #FFF;
+  }
+  

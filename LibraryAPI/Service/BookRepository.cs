@@ -34,9 +34,11 @@ namespace LibraryAPI.Service
             return await _appDbContext.Books.FirstOrDefaultAsync(b => b.BookId == id);
         }
 
-        public async Task<Book> GetBookByTitleAsync(string bookTitle)
+        public async Task<IEnumerable<Book>> GetBookByTitleAsync(string bookTitle)
         {
-            return await _appDbContext.Books.FirstOrDefaultAsync(b => b.Title.ToLower() == bookTitle.ToLower());
+            return await _appDbContext.Books
+            .Where(b => b.Title.ToLower().Contains(bookTitle.ToLower()))
+            .ToListAsync();
         }
 
         public async Task SaveAsync()

@@ -4,7 +4,7 @@ namespace LibraryAPI.Models.DTOs
 {
     public class CreateAndUpdateBookDTO
     {
-        public int BookId { get; set; }
+        //public int BookId { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]

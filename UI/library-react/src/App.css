@@ -1,0 +1,282 @@
+/* Allmänt */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-image: url('./images/library-background.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Container för böckerna */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.header h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0;
+  color: #4a3b2b;
+}
+
+/* Lägg till bok-knappen */
+.add-book-btn {
+  padding: 10px 20px;
+  background-color: #20962a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.add-book-btn:hover {
+  background-color: #008f0c;
+}
+
+
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/* Stil för tillgänglighetsbadge */
+.book-card .availability-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  color: white;
+  margin: 5px;
+}
+
+.available {
+  background-color: #28a745;
+}
+
+.not-available {
+  background-color: #dc3545;
+}
+
+.book-card {
+  position: relative;
+  background-color: #f7f7e8;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  width: 23%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+}
+
+.book-card h3 {
+  margin-bottom: 5px;
+  margin-top: 2rem;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #4a3b2b;
+}
+
+.book-card p {
+  margin: 5px 0;
+  font-size: 1em;
+  color: #4a3b2b;
+}
+
+/* Stil för knappar */
+.book-card button {
+  margin-right: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 5px;  
+  color: white;
+  cursor: pointer;
+}
+
+.details {
+  background-color: #8c6849;
+}
+
+.details:hover {
+  background-color: #725239;
+}
+
+.update {
+  background-color: #c89f7a;
+}
+
+.update:hover {
+  background-color: #a87e5b;
+}
+
+.delete {
+  background-color: #b55b5b;
+}
+
+.delete:hover {
+  background-color: #944040;
+}
+
+.delete i {
+  font-size: 1.5em;
+  color: white;
+}
+
+/* Fixera knapparna längst ned */
+.book-card div:last-child {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #f7f7e8;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* Stiljusteringar för formfält i modal */
+.modal-content input, .modal-content textarea, .modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+.modal-content label {
+  text-align: left;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.modal-content .checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.modal-content .checkbox-container label {
+  margin-right: 10px;
+}
+
+.modal-content button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Stil för Ja-knappen */
+.save-btn {
+  background-color: #20962a;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #008f0c;
+  transform: scale(1.1);
+}
+
+/* Stil för Nej-knappen */
+.close-btn {
+  background-color: #b55b5b;
+  color: white;
+}
+
+.close-btn:hover {
+  background-color: #944040;
+  transform: scale(1.1);
+}
+
+/* Sökcontainer */
+.search-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  padding: 10px;
+  font-size: 1.2em;
+  width: 300px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  font-size: 1.2em;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.search-bar button:hover {
+  background-color: #218838;
+}
+
+/* Media query för mindre skärmar */
+@media (max-width: 768px) {
+  .book-card {
+    width: 100%;
+  }
+
+  .container {
+    padding: 10px;
+  }
+}

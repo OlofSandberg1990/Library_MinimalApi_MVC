@@ -7,7 +7,7 @@ namespace LibraryAPI.Service
         Task<IEnumerable<Book>> GetAllBooksAsync();
 
         Task<Book> GetBookByIdAsync(int id);
-        Task<Book> GetBookByTitleAsync(string bookTitle);
+        Task<IEnumerable<Book>> GetBookByTitleAsync(string bookTitle);
 
 
         Task CreateAsync(Book book);

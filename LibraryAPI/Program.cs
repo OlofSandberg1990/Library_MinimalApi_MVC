@@ -1,4 +1,3 @@
-
 using LibraryAPI.Data;
 using LibraryAPI.EndPoints;
 using LibraryAPI.Service;
@@ -15,14 +14,25 @@ namespace LibraryAPI
             // Add services to the container.
             builder.Services.AddAuthorization();
 
+            // Lägg till CORS-tjänsten
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowReactApp", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddAutoMapper(typeof(MappingConfig));
 
-
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
             var app = builder.Build();
 
@@ -35,10 +45,13 @@ namespace LibraryAPI
 
             app.UseHttpsRedirection();
 
+            // Använd CORS-policy
+            app.UseCors("AllowReactApp");
+
             app.UseAuthorization();
 
             app.ConfigurationBookEndPoints();
-            
+
             app.Run();
         }
     }

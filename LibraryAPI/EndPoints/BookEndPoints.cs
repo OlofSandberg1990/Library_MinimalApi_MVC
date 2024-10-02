@@ -12,10 +12,15 @@ namespace LibraryAPI.EndPoints
             app.MapGet("/api/books", GetAllBooks).WithName("GetBooks").Produces<APIResponse>();
 
             app.MapGet("/api/book/{id:int}", GetBook).WithName("GetBook").Produces<APIResponse>();
+            app.MapGet("/api/book/title/{title}", GetBookByTitle).WithName("GetBookByTitle").Produces<APIResponse>();
 
             app.MapPost("/api/book", CreateBook).WithName("CreateBook").Accepts<CreateAndUpdateBookDTO>("application/json").Produces(201).Produces(400);
 
-            app.MapPut("/api/book", UpdateBook).WithName("UpdateBook").Accepts<CreateAndUpdateBookDTO>("application/json").Produces<CreateAndUpdateBookDTO>(200).Produces(400);
+            app.MapPut("/api/book/{id:int}", UpdateBook)
+                    .WithName("UpdateBook")
+                    .Accepts<CreateAndUpdateBookDTO>("application/json")
+                    .Produces<CreateAndUpdateBookDTO>(200)
+                    .Produces(400);
 
             app.MapDelete("/api/book/{id:int}", DeleteBook).WithName("DeleteBook");
         }
@@ -48,7 +53,7 @@ namespace LibraryAPI.EndPoints
                 return Results.Ok(response);
 
             }
-            
+
             //Skapar en false respons om bok inte kunde hittas
             else
             {
@@ -65,17 +70,12 @@ namespace LibraryAPI.EndPoints
         {
             APIResponse response = new() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
 
-            //Kontrollerar om det redan finns en bok med den titeln i databasen
-            if (_bookRepo.GetBookByTitleAsync(bookCreateDto.Title).GetAwaiter().GetResult() != null)
-            {
-                response.ErrorMessages.Add("Book title already exists in the database");
-                return Results.BadRequest(response);
-            }
-
-            //Annars mappas och skapas boken för att sedan läggas till i databasen och skicka en lyckad response
+            // Mappa DTO till Book-modellen, BookId skapas automatiskt av databasen
             Book book = _mapper.Map<Book>(bookCreateDto);
             await _bookRepo.CreateAsync(book);
             await _bookRepo.SaveAsync();
+
+            // Mappa tillbaka till DTO för att returnera som respons
             BookDTO bookDTO = _mapper.Map<BookDTO>(book);
 
             response.Result = bookDTO;
@@ -83,22 +83,38 @@ namespace LibraryAPI.EndPoints
             response.StatusCode = System.Net.HttpStatusCode.OK;
 
             return Results.Ok(response);
-
         }
 
-        private static async Task<IResult> UpdateBook(IBookRepository _bookRepo, IMapper _mapper, CreateAndUpdateBookDTO bookDto)
+        private static async Task<IResult> UpdateBook(IBookRepository _bookRepo, IMapper _mapper, int id, CreateAndUpdateBookDTO bookDto)
         {
             APIResponse response = new() { IsSuccess = false, StatusCode = System.Net.HttpStatusCode.BadRequest };
 
-            await _bookRepo.UpdateAsync(_mapper.Map<Book>(bookDto));
+            // Validera att boken finns i databasen
+            var bookFromDb = await _bookRepo.GetBookByIdAsync(id);
+            if (bookFromDb == null)
+            {
+                response.ErrorMessages.Add("Book could.");
+                return Results.NotFound(response);
+            }
+
+            // Uppdatera bokens värden
+            bookFromDb.Title = bookDto.Title;
+            bookFromDb.Author = bookDto.Author;
+            bookFromDb.Published = bookDto.Published;
+            bookFromDb.Genre = bookDto.Genre;
+            bookFromDb.Description = bookDto.Description;
+            bookFromDb.AvaliableForLoan = bookDto.AvaliableForLoan;
+
+            await _bookRepo.UpdateAsync(bookFromDb);
             await _bookRepo.SaveAsync();
 
-            response.Result = _mapper.Map<CreateAndUpdateBookDTO>(await _bookRepo.GetBookByIdAsync(bookDto.BookId));
+            response.Result = _mapper.Map<CreateAndUpdateBookDTO>(bookFromDb);
             response.IsSuccess = true;
             response.StatusCode = System.Net.HttpStatusCode.OK;
 
             return Results.Ok(response);
         }
+
 
         private static async Task<IResult> DeleteBook(IBookRepository _bookRepo, int id)
         {
@@ -121,6 +137,27 @@ namespace LibraryAPI.EndPoints
                 return Results.BadRequest(response);
             }
 
+        }
+
+        private static async Task<IResult> GetBookByTitle(IBookRepository _bookRepo, string title)
+        {
+            APIResponse response = new();
+
+            var book = await _bookRepo.GetBookByTitleAsync(title);
+
+            if (book != null)
+            {
+                response.Result = book;
+                response.IsSuccess = true;
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+                return Results.Ok(response);
+            } else
+            {
+                response.IsSuccess = false;
+                response.ErrorMessages.Add($"Book with title '{title}' could not be found in the database");
+                response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                return Results.NotFound(response);
+            }
         }
     }
 }
